@@ -8,9 +8,9 @@ import (
 
 const SecretKey = "secret"
 
-func GenerateJwt(Issuer string) (string, error) {
+func GenerateJwt(issuer string) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    Issuer,
+		Issuer:    issuer,
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), // 1 day
 	})
 
@@ -19,7 +19,7 @@ func GenerateJwt(Issuer string) (string, error) {
 
 func ParseJwt(cookie string) (string, error) {
 	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte("secret"), nil
+		return []byte(SecretKey), nil
 	})
 	if err != nil || !token.Valid {
 		return "", err

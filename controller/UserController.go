@@ -35,23 +35,33 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 		json.NewEncoder(writer).Encode("sai tên đăng nhập hoặc mật khẩu")
 		return
 	}
-	token, err := util.GenerateJwt(strconv.Itoa(int(user.Id)))
+	token, err := util.GenerateJwt(strconv.Itoa((user.Permission)))
 	if err != nil {
-		json.NewEncoder(writer).Encode(user)
-		return
+		panic(err.Error())
 	}
 	//đưa vào cookie
 	//b1 : tọa cookie
-	cookie := http.Cookie{
+	cookie := &http.Cookie{
 		Name:     "jwt",
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
 	}
 	//bước 2 set cookie
-	http.SetCookie(writer, &cookie)
+	writer.Header().Set("jwt", token)
+	http.SetCookie(writer, cookie)
 	// writer.WriteHeader(http.StatusCreated)
 	// json.NewEncoder(writer).Encode("đăng nhập thành công")
 	json.NewEncoder(writer).Encode(user)
+}
 
+func Logout(writer http.ResponseWriter, request *http.Request) {
+	cookie := http.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Expires:  time.Now().Add(-time.Hour),
+		HttpOnly: true,
+	}
+	http.SetCookie(writer, &cookie)
+	json.NewEncoder(writer).Encode("log out successfully")
 }
