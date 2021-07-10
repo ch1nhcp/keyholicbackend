@@ -18,8 +18,8 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/product/add", controller.AddNewProduct).Methods(http.MethodPost)
 	r.HandleFunc("/product/{name}", controller.GetProductByName).Methods(http.MethodGet)
 	r.HandleFunc("/category/{name}", controller.GetProductByCategory).Methods(http.MethodGet)
-	// r.HandleFunc("/brand/{name}", controller.GetProductByBrand).Methods(http.MethodGet)
-	//brand
+	r.HandleFunc("/brand/{name}", controller.GetProductByBrand).Methods(http.MethodGet)
+	// brand
 
 	r.HandleFunc("/api/brand", middlewares.JwtVerify(controller.GetAllBrand)).Methods(http.MethodGet)
 	r.HandleFunc("/api/brand/add", controller.AddNewBrand).Methods(http.MethodPost)

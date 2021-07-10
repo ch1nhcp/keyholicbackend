@@ -88,15 +88,15 @@ func FindProductByCategory(name string, page int) paginate {
 	}
 	return paginate
 }
-func FindProductByBrand(name string, page int) paginate {
+func FindProductByBrand(name []string, page int) paginate {
 	var total int
 	limit := 8
 	offset := (page - 1) * limit
 	var product []models.Product
-	var idbrand int
-	database.DB.Raw("SELECT id FROM `brands` WHERE name in (?", name).Scan(&idbrand)
-	database.DB.Raw("SELECT * FROM `products` WHERE brand_id = ? LIMIT ? OFFSET ?", idbrand, limit, offset).Scan(&product)
-	database.DB.Raw("SELECT COUNT(*) FROM `products`WHERE brand_id = ?", idbrand).Scan(&total)
+	var idbrand []int
+	database.DB.Raw("SELECT id FROM `brands` WHERE name in (?)", name).Scan(&idbrand)
+	database.DB.Raw("SELECT * FROM `products` WHERE brand_id in (?) LIMIT ? OFFSET ?", idbrand, limit, offset).Scan(&product)
+	database.DB.Raw("SELECT COUNT(*) FROM `products` WHERE brand_id in (?)", idbrand).Scan(&total)
 	paginate := paginate{
 		Product:  product,
 		Total:    total,

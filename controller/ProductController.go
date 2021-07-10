@@ -117,12 +117,10 @@ func GetProductByBrand(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(request)
 	name := vars["name"]
-	newname1 := strings.ReplaceAll(name, ",", "','")
-	newname2 := "'" + newname1 + "'"
-	var brand models.Brand
-	database.DB.Raw("SELECT id FROM `brands` WHERE name in (?)", name).Scan(&brand)
-	data := repository.FindProductByBrand(newname2, value)
+	a := strings.Split(name, ",")
+	// newname2 := "'" + newname1 + "'"
+
+	data := repository.FindProductByBrand(a, value)
 	writer.WriteHeader(http.StatusCreated)
 	json.NewEncoder(writer).Encode(data)
-	json.NewEncoder(writer).Encode(brand)
 }
