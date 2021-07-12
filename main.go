@@ -15,14 +15,12 @@ func main() {
 	database.Connect()
 	r := mux.NewRouter()
 	cors := handlers.CORS(
-		handlers.AllowCredentials(),
+		handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}),
 		handlers.AllowedOrigins([]string{"*"}),
-		handlers.AllowedHeaders([]string{"Content-Type", "jwt", "Set-Cookie"}),
 	)
-	r.Use(cors)
 
 	routes.Setup(r)
-	// log.Fatal(srv.ListenAndServe())
-	log.Fatal(http.ListenAndServe(":8000", r))
+	log.Fatal(http.ListenAndServe(":8001", cors(r)))
 
 }

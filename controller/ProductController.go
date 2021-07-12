@@ -5,6 +5,7 @@ import (
 	"finalbackend/database"
 	"finalbackend/models"
 	"finalbackend/repository"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -14,6 +15,19 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type People struct {
+	Name string `json:"name"`
+	Age  int64  `json:"age"`
+}
+
+func Test(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "application/json")
+	var people People
+	requestBody, _ := ioutil.ReadAll(request.Body)
+	json.Unmarshal(requestBody, &people)
+	json.NewEncoder(writer).Encode(people)
+	fmt.Println(people)
+}
 func GetCookie(writer http.ResponseWriter, request *http.Request) {
 	cookie, _ := request.Cookie("jwt")
 	json.NewEncoder(writer).Encode(cookie)
@@ -99,10 +113,9 @@ func GetProductByCategory(writer http.ResponseWriter, request *http.Request) {
 	vars := mux.Vars(request)
 	name := vars["name"]
 	data := repository.FindProductByCategory(name, value)
-	// writer.WriteHeader(http.StatusCreated)
 	json.NewEncoder(writer).Encode(data)
 }
-func GetProductByBrand(writer http.ResponseWriter, request *http.Request) {
+func GetProductByManyBrand(writer http.ResponseWriter, request *http.Request) {
 	params := request.URL.Query()
 	pages := params["page"]
 	var value int
