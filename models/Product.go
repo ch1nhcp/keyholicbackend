@@ -11,5 +11,5 @@ type Product struct {
 	BrandId          int        `json:"BrandId"`
 	Brand            Brand      `gorm:" ForeignKey:BrandId "`
 	CategoryId       int        `json:"CategoryId"`
-	Categories       Categories `gorm:" ForeignKey:CategoryId "`
+	Categories       Category `gorm:" ForeignKey:CategoryId "`
 }
