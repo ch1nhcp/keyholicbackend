@@ -17,7 +17,7 @@ func GetBrandById(id int) (*models.Brand, error) {
 	if brand.Id != 0 {
 		return &brand, nil
 	} else {
-		return nil, errors.New("Category not found")
+		return nil, errors.New("category not found")
 	}
 }
 func DelBrandById(id int) {
@@ -25,13 +25,13 @@ func DelBrandById(id int) {
 	database.DB.Raw("DELETE  FROM `brands` WHERE id = ? ", id).Scan(&brand)
 }
 func UpdateBrand(brand *models.Brand) error {
-	brandd, err := GetBrandById(brand.Id)
+	brandvalue, err := GetBrandById(brand.Id)
 	if err != nil {
-		return errors.New("Product not found")
+		return errors.New("product not found")
 	} else {
-		brandd.Name = brand.Name
-		brandd.Image = brand.Image
-		database.DB.Save(&brandd)
+		brandvalue.Name = brand.Name
+		brandvalue.Image = brand.Image
+		database.DB.Save(&brandvalue)
 		return nil
 	}
 }
