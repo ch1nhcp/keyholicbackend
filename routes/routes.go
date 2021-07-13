@@ -9,13 +9,12 @@ import (
 )
 
 func Setup(r *mux.Router) {
-
 	//test cookie -ok
 	r.HandleFunc("/test", controller.Test).Methods(http.MethodPost)
-	r.HandleFunc("/", controller.GetCookie).Methods(http.MethodGet)
-	r.HandleFunc("/", controller.SetCookie).Methods(http.MethodPost)
-	r.HandleFunc("/", controller.DelCookie).Methods(http.MethodDelete)
-
+	r.HandleFunc("/checkcookie", controller.CheckCookie).Methods(http.MethodPost)
+	//user
+	// r.HandleFunc("/", controller.User).Methods(http.MethodGet)
+	// r.HandleFunc("/", controller.FindUserById).Methods(http.MethodGet)
 	//product -ok
 	r.HandleFunc("/product", controller.GetAllProductPaginate).Methods(http.MethodGet)
 	r.HandleFunc("/product/{name}", controller.GetProductByName).Methods(http.MethodGet)
@@ -31,10 +30,10 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/api/brand", controller.UpdateBrand).Methods(http.MethodPut)
 
 	//user  -ok
-	r.HandleFunc("/api/register", controller.Register).Methods(http.MethodGet)
+	r.HandleFunc("/api/register", controller.Register).Methods(http.MethodPost)
 	r.HandleFunc("/api/login", controller.Login).Methods(http.MethodPost)
 	r.HandleFunc("/api/logout", controller.Logout).Methods(http.MethodPost)
-	r.HandleFunc("/api/cookie", controller.User).Methods(http.MethodGet)
+	// r.HandleFunc("/api/cookie", controller.User).Methods(http.MethodGet)
 
 	// category  -ok
 	r.HandleFunc("/api/category", controller.GetAllCategory).Methods(http.MethodGet)

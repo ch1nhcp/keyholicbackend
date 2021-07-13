@@ -36,3 +36,13 @@ func Login(User *models.User) (*models.User, error) {
 	}
 	return nil, errors.New("error")
 }
+
+func FindUserById(id int) (*models.User, error) {
+	var user models.User
+	database.DB.Raw("SELECT * FROM `users` WHERE id = ? ", id).Scan(&user)
+	if user.Id != 0 {
+		return &user, nil
+	} else {
+		return nil, errors.New("user not found")
+	}
+}

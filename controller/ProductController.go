@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -29,29 +28,12 @@ func Test(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(people)
 }
 func GetCookie(writer http.ResponseWriter, request *http.Request) {
-	cookie, _ := request.Cookie("jwt")
-	json.NewEncoder(writer).Encode(cookie)
+	var token string
+	requestBody, _ := ioutil.ReadAll(request.Body)
+	json.Unmarshal(requestBody, &token)
+	json.NewEncoder(writer).Encode(token)
 }
-func SetCookie(w http.ResponseWriter, r *http.Request) {
-	cookie := &http.Cookie{
-		Name:     "jwt",
-		Value:    "1",
-		Expires:  time.Now().Add(time.Hour * 24),
-		HttpOnly: true,
-	}
-	http.SetCookie(w, cookie)
-	json.NewEncoder(w).Encode("ok")
-}
-func DelCookie(w http.ResponseWriter, r *http.Request) {
-	cookie := http.Cookie{
-		Name:     "jwt",
-		Value:    "",
-		Expires:  time.Now().Add(-time.Hour),
-		HttpOnly: true,
-	}
-	http.SetCookie(w, &cookie)
-	json.NewEncoder(w).Encode("log out successfully")
-}
+
 func GetAllProductPaginate(writer http.ResponseWriter, request *http.Request) {
 	params := request.URL.Query()
 	pages := params["page"]
