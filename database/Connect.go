@@ -15,6 +15,6 @@ func Connect() *gorm.DB {
 		panic("couldn't connect to the database")
 	}
 	DB = database
-	DB.AutoMigrate(&models.Product{}, &models.Brand{}, &models.Categories{}, &models.Detailproduct{}, &models.Imageproduct{}, &models.Order{}, &models.Orderitem{}, &models.Trueproduct{}, &models.User{})
+	DB.AutoMigrate(&models.Product{}, &models.Brand{}, &models.Category{}, &models.Detailproduct{}, &models.Imageproduct{}, &models.Order{}, &models.Orderitem{}, &models.Trueproduct{}, &models.User{})
 	return DB
 }

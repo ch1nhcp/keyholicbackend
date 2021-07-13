@@ -1,6 +1,6 @@
 package models
 
-type Categories struct {
+type Category struct {
 	Id   int    `json:"Id"`
 	Name string `json:"Name"`
 }

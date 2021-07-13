@@ -36,5 +36,6 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/api/register", controller.Register).Methods(http.MethodGet)
 	r.HandleFunc("/api/login", controller.Login).Methods(http.MethodPost)
 	r.HandleFunc("/api/logout", controller.Logout).Methods(http.MethodPost)
+	r.HandleFunc("/api/cookie", controller.User).Methods(http.MethodGet)
 
 }

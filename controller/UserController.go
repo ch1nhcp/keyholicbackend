@@ -35,7 +35,7 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 		json.NewEncoder(writer).Encode("sai tên đăng nhập hoặc mật khẩu")
 		return
 	}
-	token, err := util.GenerateJwt(strconv.Itoa((user.Permission)))
+	token, err := util.GenerateJwt(strconv.Itoa((user.Id)))
 	if err != nil {
 		panic(err.Error())
 	}
@@ -64,4 +64,14 @@ func Logout(writer http.ResponseWriter, request *http.Request) {
 	}
 	http.SetCookie(writer, &cookie)
 	json.NewEncoder(writer).Encode("log out successfully")
+}
+
+func User(writer http.ResponseWriter, request *http.Request) {
+	cookie, _ := request.Cookie("jwt")
+	var value, err = util.ParseJwt(cookie.Value)
+	if err != nil {
+		return
+	}
+
+	json.NewEncoder(writer).Encode(value)
 }
