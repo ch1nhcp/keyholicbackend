@@ -16,15 +16,18 @@ func Setup(r *mux.Router) {
 	// r.HandleFunc("/", controller.User).Methods(http.MethodGet)
 	// r.HandleFunc("/", controller.FindUserById).Methods(http.MethodGet)
 	//product -ok
-	r.HandleFunc("/product", controller.GetAllProductPaginate).Methods(http.MethodGet)
+	r.HandleFunc("/producthot", controller.GetProductHot).Methods(http.MethodGet)
+	r.HandleFunc("/productlatest", controller.GetProductLatest).Methods(http.MethodGet)
 	r.HandleFunc("/product/{name}", controller.GetProductByName).Methods(http.MethodGet)
 	r.HandleFunc("/category/{name}", controller.GetProductByCategory).Methods(http.MethodGet)
 	r.HandleFunc("/brand/{name}", controller.GetProductByManyBrand).Methods(http.MethodGet)
-	r.HandleFunc("/product/add", controller.AddNewProduct).Methods(http.MethodPost)
+
+	r.HandleFunc("/product", controller.GetAllProductPaginate).Methods(http.MethodGet)
+	r.HandleFunc("/product", controller.AddNewProduct).Methods(http.MethodPost)
 
 	// brand  -ok
 	r.HandleFunc("/api/brand", middlewares.JwtVerify(controller.GetAllBrand)).Methods(http.MethodGet)
-	r.HandleFunc("/api/brand/add", controller.AddNewBrand).Methods(http.MethodPost)
+	r.HandleFunc("/api/brand", controller.AddNewBrand).Methods(http.MethodPost)
 	r.HandleFunc("/api/brand/{id}", controller.GetBrandById).Methods(http.MethodGet)
 	r.HandleFunc("/api/brand/{id}", controller.DelBrandById).Methods(http.MethodDelete)
 	r.HandleFunc("/api/brand", controller.UpdateBrand).Methods(http.MethodPut)
@@ -58,14 +61,14 @@ func Setup(r *mux.Router) {
 
 	// order  -ok
 	r.HandleFunc("/api/order", controller.GetAllOrder).Methods(http.MethodGet)
-	r.HandleFunc("/api/order/add", controller.AddNewOrder).Methods(http.MethodPost)
+	r.HandleFunc("/api/order", controller.AddNewOrder).Methods(http.MethodPost)
 	r.HandleFunc("/api/order/{id}", controller.GetOrderById).Methods(http.MethodGet)
 	r.HandleFunc("/api/order/{id}", controller.DelOrderById).Methods(http.MethodDelete)
 	r.HandleFunc("/api/order", controller.UpdateOrder).Methods(http.MethodPut)
 
 	// orderitem  -ok
 	r.HandleFunc("/api/orderitem", controller.GetAllOrderitem).Methods(http.MethodGet)
-	r.HandleFunc("/api/orderitem/add", controller.AddNewOrderitem).Methods(http.MethodPost)
+	r.HandleFunc("/api/orderitem", controller.AddNewOrderitem).Methods(http.MethodPost)
 	r.HandleFunc("/api/orderitem/{id}", controller.GetOrderitemById).Methods(http.MethodGet)
 	r.HandleFunc("/api/orderitem/{id}", controller.DelOrderitemById).Methods(http.MethodDelete)
 	r.HandleFunc("/api/orderitem", controller.UpdateOrderitem).Methods(http.MethodPut)

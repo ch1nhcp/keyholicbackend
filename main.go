@@ -14,6 +14,7 @@ func main() {
 
 	database.Connect()
 	r := mux.NewRouter()
+
 	cors := handlers.CORS(
 		handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}),
@@ -22,6 +23,7 @@ func main() {
 	)
 
 	routes.Setup(r)
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/")))
 	log.Fatal(http.ListenAndServe(":8000", cors(r)))
 
 }

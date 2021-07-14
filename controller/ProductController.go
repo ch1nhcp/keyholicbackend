@@ -119,3 +119,13 @@ func GetProductByManyBrand(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(http.StatusCreated)
 	json.NewEncoder(writer).Encode(data)
 }
+func GetProductLatest(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "application/json")
+	data := repository.GetProductLatest()
+	json.NewEncoder(writer).Encode(data)
+}
+func GetProductHot(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "application/json")
+	data := repository.GetProductHot()
+	json.NewEncoder(writer).Encode(data)
+}

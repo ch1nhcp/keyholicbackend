@@ -113,3 +113,37 @@ func CheckProductExist(name string) error {
 	}
 	return nil
 }
+
+func GetProductLatest() []productDetail {
+	productlatest := []productDetail{}
+	productDetail := productDetail{}
+	var product []models.Product
+	var imageproduct []string
+	database.DB.Raw("SELECT * FROM `products` ORDER BY id DESC LIMIT 8").Scan(&product)
+	for _, v := range product {
+		if v.Id > 0 {
+			database.DB.Raw("SELECT image FROM `imageproducts` WHERE product_id =?", v.Id).Scan(&imageproduct)
+
+		}
+		productDetail.Products = v
+		productDetail.Image = imageproduct
+		productlatest = append(productlatest, productDetail)
+	}
+	return productlatest
+}
+func GetProductHot() []productDetail {
+	productlatest := []productDetail{}
+	productDetail := productDetail{}
+	var product []models.Product
+	var imageproduct []string
+	database.DB.Raw("SELECT * FROM `products` ORDER BY RAND() LIMIT 8").Scan(&product)
+	for _, v := range product {
+		if v.Id > 0 {
+			database.DB.Raw("SELECT image FROM `imageproducts` WHERE product_id =?", v.Id).Scan(&imageproduct)
+			productDetail.Products = v
+			productDetail.Image = imageproduct
+			productlatest = append(productlatest, productDetail)
+		}
+	}
+	return productlatest
+}
