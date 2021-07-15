@@ -2,7 +2,6 @@ package routes
 
 import (
 	"finalbackend/controller"
-	// "finalbackend/middlewares"
 	"net/http"
 
 	"github.com/gorilla/mux"
