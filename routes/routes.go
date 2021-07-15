@@ -2,7 +2,6 @@ package routes
 
 import (
 	"finalbackend/controller"
-	"finalbackend/middlewares"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -26,7 +25,7 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/product", controller.AddNewProduct).Methods(http.MethodPost)
 
 	// brand  -ok
-	r.HandleFunc("/api/brand", middlewares.JwtVerify(controller.GetAllBrand)).Methods(http.MethodGet)
+	r.HandleFunc("/api/brand", (controller.GetAllBrand)).Methods(http.MethodGet)
 	r.HandleFunc("/api/brand", controller.AddNewBrand).Methods(http.MethodPost)
 	r.HandleFunc("/api/brand/{id}", controller.GetBrandById).Methods(http.MethodGet)
 	r.HandleFunc("/api/brand/{id}", controller.DelBrandById).Methods(http.MethodDelete)

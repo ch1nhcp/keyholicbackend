@@ -37,7 +37,7 @@ type paginate struct {
 
 func GetAllProduct(page int) paginate {
 	var total int
-	limit := 8
+	limit := 2
 	offset := (page - 1) * limit
 	var product []models.Product
 	database.DB.Raw("SELECT * FROM `products` LIMIT ? OFFSET ?", limit, offset).Scan(&product)
@@ -73,7 +73,7 @@ func FindProductByName(name string) (productDetail, error) {
 
 func FindProductByCategory(name string, page int) paginate {
 	var total int
-	limit := 8
+	limit := 2
 	offset := (page - 1) * limit
 	var product []models.Product
 	var idcategory int
