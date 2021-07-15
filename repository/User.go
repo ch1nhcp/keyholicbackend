@@ -36,7 +36,22 @@ func Login(User *models.User) (*models.User, error) {
 	}
 	return nil, errors.New("error")
 }
-
+func LoginAdmin(User *models.User) (*models.User, error) {
+	var user models.User
+	database.DB.Raw("SELECT * FROM `users` WHERE `email` = ?", User.Email).Scan(&user)
+	if user.Permission != 1 {
+		return nil, errors.New("error")
+	}
+	if user.Id > 0 {
+		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(User.Password))
+		if err != nil {
+			return nil, errors.New("error")
+		} else {
+			return &user, nil
+		}
+	}
+	return nil, errors.New("error")
+}
 func FindUserById(id int) (*models.User, error) {
 	var user models.User
 	database.DB.Raw("SELECT * FROM `users` WHERE id = ? ", id).Scan(&user)

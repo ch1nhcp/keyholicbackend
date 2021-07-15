@@ -15,6 +15,7 @@ func Setup(r *mux.Router) {
 	// r.HandleFunc("/", controller.User).Methods(http.MethodGet)
 	// r.HandleFunc("/", controller.FindUserById).Methods(http.MethodGet)
 	//product -ok
+	r.HandleFunc("/search", controller.GetProductSearch).Methods(http.MethodGet)
 	r.HandleFunc("/producthot", controller.GetProductHot).Methods(http.MethodGet)
 	r.HandleFunc("/productlatest", controller.GetProductLatest).Methods(http.MethodGet)
 	r.HandleFunc("/product/{name}", controller.GetProductByName).Methods(http.MethodGet)
@@ -34,6 +35,7 @@ func Setup(r *mux.Router) {
 	//user  -ok
 	r.HandleFunc("/api/register", controller.Register).Methods(http.MethodPost)
 	r.HandleFunc("/api/login", controller.Login).Methods(http.MethodPost)
+	r.HandleFunc("/api/loginadmin", controller.LoginAdmin).Methods(http.MethodPost)
 	r.HandleFunc("/api/logout", controller.Logout).Methods(http.MethodPost)
 	// r.HandleFunc("/api/cookie", controller.User).Methods(http.MethodGet)
 

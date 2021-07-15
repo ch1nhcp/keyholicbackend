@@ -129,3 +129,12 @@ func GetProductHot(writer http.ResponseWriter, request *http.Request) {
 	data := repository.GetProductHot()
 	json.NewEncoder(writer).Encode(data)
 }
+func GetProductSearch(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "application/json")
+	params := request.URL.Query()
+	search := params["name"]
+	key := "%" + search[0] + "%"
+	// page := strings.Split(search[0], ",")
+	data := repository.GetProductSearch(key)
+	json.NewEncoder(writer).Encode(data)
+}

@@ -90,7 +90,7 @@ func FindProductByCategory(name string, page int) paginate {
 }
 func FindProductByBrand(name []string, page int) paginate {
 	var total int
-	limit := 8
+	limit := 2
 	offset := (page - 1) * limit
 	var product []models.Product
 	var idbrand []int
@@ -146,4 +146,14 @@ func GetProductHot() []productDetail {
 		}
 	}
 	return productlatest
+}
+func GetProductSearch(key string) paginate {
+	var product []models.Product
+	database.DB.Raw("SELECT * FROM `products` WHERE products.name LIKE ?", key).Scan(&product)
+
+	paginate := paginate{
+		Product: product,
+		Total:   len(product),
+	}
+	return paginate
 }
