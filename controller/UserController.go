@@ -61,7 +61,7 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 
 func Logout(writer http.ResponseWriter, request *http.Request) {
 	cookie := http.Cookie{
-		Name:     "jwt",
+		Name:     "token",
 		Value:    "",
 		Path:     "/",
 		Expires:  time.Now().Add(-time.Hour),

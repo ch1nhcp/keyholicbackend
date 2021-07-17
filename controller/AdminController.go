@@ -22,7 +22,7 @@ func LoginAdmin(writer http.ResponseWriter, request *http.Request) {
 		json.NewEncoder(writer).Encode("sai tên đăng nhập hoặc mật khẩu")
 		return
 	}
-	token, err := util.GenerateJwt(strconv.Itoa((user.Id)))
+	token, err := util.GenerateJwt(strconv.Itoa((user.Permission)))
 	if err != nil {
 		panic(err.Error())
 	}
