@@ -54,17 +54,22 @@ func GetAllProduct(page int) paginate {
 type productDetail struct {
 	Products models.Product
 	Image    []string
+	Quantity int
 }
 
 func FindProductByName(name string) (productDetail, error) {
 	var product models.Product
 	var imageproduct []string
+	var quantity int
 	productDetail := productDetail{}
+
 	database.DB.Raw("SELECT * FROM `products` WHERE name =?", name).Scan(&product)
 	if product.Id > 0 {
 		database.DB.Raw("SELECT image FROM `imageproducts` WHERE product_id =?", product.Id).Scan(&imageproduct)
 		productDetail.Products = product
 		productDetail.Image = imageproduct
+		database.DB.Raw("SELECT quantity FROM `trueproducts` WHERE product_id =?", product.Id).Scan(&quantity)
+		productDetail.Quantity = quantity
 		return productDetail, nil
 	}
 	return productDetail, errors.New("not")

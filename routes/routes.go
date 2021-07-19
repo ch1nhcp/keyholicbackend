@@ -21,7 +21,7 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/product/{name}", controller.GetProductByName).Methods(http.MethodGet)
 	r.HandleFunc("/category/{name}", controller.GetProductByCategory).Methods(http.MethodGet)
 	r.HandleFunc("/brand/{name}", controller.GetProductByManyBrand).Methods(http.MethodGet)
-
+	// middlewares.JwtVerify()
 	r.HandleFunc("/product", controller.GetAllProductPaginate).Methods(http.MethodGet)
 	r.HandleFunc("/product", controller.AddNewProduct).Methods(http.MethodPost)
 
@@ -35,8 +35,9 @@ func Setup(r *mux.Router) {
 	//user  -ok
 	r.HandleFunc("/api/register", controller.Register).Methods(http.MethodPost)
 	r.HandleFunc("/api/login", controller.Login).Methods(http.MethodPost)
-	r.HandleFunc("/api/loginadmin", controller.LoginAdmin).Methods(http.MethodPost)
 	r.HandleFunc("/api/logout", controller.Logout).Methods(http.MethodPost)
+	r.HandleFunc("/api/loginadmin", controller.LoginAdmin).Methods(http.MethodPost)
+
 	// r.HandleFunc("/api/cookie", controller.User).Methods(http.MethodGet)
 
 	// category  -ok
