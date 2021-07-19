@@ -15,6 +15,8 @@ import (
 func AddNewOrderitem(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	var orderitem models.Orderitem
+	requestBody, _ := ioutil.ReadAll(request.Body)
+	json.Unmarshal(requestBody, &orderitem)
 	database.DB.Create(&orderitem)
 	writer.WriteHeader(http.StatusCreated)
 	json.NewEncoder(writer).Encode(orderitem)

@@ -18,7 +18,7 @@ func AddNewOrder(writer http.ResponseWriter, request *http.Request) {
 	requestBody, _ := ioutil.ReadAll(request.Body)
 	json.Unmarshal(requestBody, &order)
 	database.DB.Create(&order)
-	// writer.WriteHeader(http.StatusCreated)
+	writer.WriteHeader(http.StatusCreated)
 	json.NewEncoder(writer).Encode(order)
 }
 func GetOrderById(writer http.ResponseWriter, request *http.Request) {
