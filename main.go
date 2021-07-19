@@ -24,6 +24,6 @@ func main() {
 
 	routes.Setup(r)
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/")))
-	log.Fatal(http.ListenAndServe(":8000", cors(r)))
+	log.Fatal(http.ListenAndServe(":8001", cors(r)))
 
 }

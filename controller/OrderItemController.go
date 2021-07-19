@@ -29,6 +29,7 @@ func GetOrderitemById(writer http.ResponseWriter, request *http.Request) {
 	orderitem, err := repository.GetOrderitemById(id)
 	if err != nil {
 		json.NewEncoder(writer).Encode("not find")
+		return
 	}
 	writer.WriteHeader(http.StatusOK)
 	json.NewEncoder(writer).Encode(orderitem)

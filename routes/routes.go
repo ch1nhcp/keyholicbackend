@@ -21,6 +21,7 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/product/{name}", controller.GetProductByName).Methods(http.MethodGet)
 	r.HandleFunc("/category/{name}", controller.GetProductByCategory).Methods(http.MethodGet)
 	r.HandleFunc("/brand/{name}", controller.GetProductByManyBrand).Methods(http.MethodGet)
+	r.HandleFunc("/order/{id}", controller.GetOrderByIdUser).Methods(http.MethodGet)
 	// middlewares.JwtVerify()
 	r.HandleFunc("/product", controller.GetAllProductPaginate).Methods(http.MethodGet)
 	r.HandleFunc("/product", controller.AddNewProduct).Methods(http.MethodPost)

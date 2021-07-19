@@ -37,7 +37,7 @@ type paginate struct {
 
 func GetAllProduct(page int) paginate {
 	var total int
-	limit := 2
+	limit := 9
 	offset := (page - 1) * limit
 	var product []models.Product
 	database.DB.Raw("SELECT * FROM `products` LIMIT ? OFFSET ?", limit, offset).Scan(&product)
@@ -78,7 +78,7 @@ func FindProductByName(name string) (productDetail, error) {
 
 func FindProductByCategory(name string, page int) paginate {
 	var total int
-	limit := 2
+	limit := 9
 	offset := (page - 1) * limit
 	var product []models.Product
 	var idcategory int
@@ -95,7 +95,7 @@ func FindProductByCategory(name string, page int) paginate {
 }
 func FindProductByBrand(name []string, page int) paginate {
 	var total int
-	limit := 2
+	limit := 9
 	offset := (page - 1) * limit
 	var product []models.Product
 	var idbrand []int
@@ -119,13 +119,14 @@ func CheckProductExist(name string) error {
 	return nil
 }
 
-func GetProductLatest() []productDetail {
-	productlatest := []productDetail{}
-	productDetail := productDetail{}
+func GetProductLatest() []productHome {
+	productlatest := []productHome{}
+	productDetail := productHome{}
 	var product []models.Product
-	var imageproduct []string
+
 	database.DB.Raw("SELECT * FROM `products` ORDER BY id DESC LIMIT 8").Scan(&product)
 	for _, v := range product {
+		var imageproduct string
 		if v.Id > 0 {
 			database.DB.Raw("SELECT image FROM `imageproducts` WHERE product_id =?", v.Id).Scan(&imageproduct)
 
@@ -136,13 +137,20 @@ func GetProductLatest() []productDetail {
 	}
 	return productlatest
 }
-func GetProductHot() []productDetail {
-	productlatest := []productDetail{}
-	productDetail := productDetail{}
+
+type productHome struct {
+	Products models.Product
+	Image    string
+	Quantity int
+}
+
+func GetProductHot() []productHome {
+	productlatest := []productHome{}
+	productDetail := productHome{}
 	var product []models.Product
-	var imageproduct []string
 	database.DB.Raw("SELECT * FROM `products` ORDER BY RAND() LIMIT 8").Scan(&product)
 	for _, v := range product {
+		var imageproduct string
 		if v.Id > 0 {
 			database.DB.Raw("SELECT image FROM `imageproducts` WHERE product_id =?", v.Id).Scan(&imageproduct)
 			productDetail.Products = v
