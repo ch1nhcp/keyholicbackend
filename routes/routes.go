@@ -8,6 +8,8 @@ import (
 )
 
 func Setup(r *mux.Router) {
+	//Payment triple
+	r.HandleFunc("/stripe", controller.Payment).Methods(http.MethodPost)
 	//test cookie -ok
 	r.HandleFunc("/test", controller.Test).Methods(http.MethodPost)
 	r.HandleFunc("/checkcookie", controller.CheckCookie).Methods(http.MethodPost)
