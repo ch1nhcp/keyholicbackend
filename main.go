@@ -3,7 +3,7 @@ package main
 import (
 	"finalbackend/database"
 	"finalbackend/routes"
-	// "fmt"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -26,5 +26,6 @@ func main() {
 	routes.Setup(r)
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/")))
 	log.Fatal(http.ListenAndServe(":8000", cors(r)))
+	fmt.Println("back_end:http://localhost:8000")
 
 }
