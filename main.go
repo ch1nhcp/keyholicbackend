@@ -26,9 +26,6 @@ func main() {
 	routes.Setup(r)
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/")))
 	log.Fatal(http.ListenAndServe(":8000", cors(r)))
-<<<<<<< HEAD
 	fmt.Println("back_end:http://localhost:8000")
-=======
->>>>>>> 44bcd0f744366aff30f1af43193fd62cce234479
 
 }
