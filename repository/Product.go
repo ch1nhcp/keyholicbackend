@@ -40,7 +40,7 @@ func GetAllProduct(page int) paginate {
 	limit := 9
 	offset := (page - 1) * limit
 	var product []models.Product
-	database.DB.Raw("SELECT * FROM `products` LIMIT ? OFFSET ?", limit, offset).Scan(&product)
+	database.DB.Raw("SELECT * FROM `products` ORDER BY id DESC LIMIT ? OFFSET ?", limit, offset).Scan(&product)
 	database.DB.Raw("SELECT COUNT(*) FROM `products`").Scan(&total)
 	paginate := paginate{
 		Product:  product,
