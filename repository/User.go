@@ -13,7 +13,7 @@ func RegisterUser(User *models.User) error {
 	var user models.User
 	database.DB.Raw("SELECT * FROM `users` WHERE email = ? ", User.Email).Scan(&user)
 	if user.Email == User.Email {
-		return errors.New("email exist")
+		return errors.New("Email existed!")
 	} else {
 		hashpassword, _ := util.HashPassword(User.Password)
 		User.Password = hashpassword
