@@ -33,7 +33,16 @@ func GetCookie(writer http.ResponseWriter, request *http.Request) {
 	json.Unmarshal(requestBody, &token)
 	json.NewEncoder(writer).Encode(token)
 }
+<<<<<<< HEAD
+func GetAllProduct(writer http.ResponseWriter, request *http.Request) {
+	product := repository.GetProduct()
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusOK)
+	json.NewEncoder(writer).Encode(product)
+}
+=======
 
+>>>>>>> 28e18b7fe29baedf032232cbcd9cc754ca9c0425
 func GetAllProductPaginate(writer http.ResponseWriter, request *http.Request) {
 	params := request.URL.Query()
 	pages := params["page"]
