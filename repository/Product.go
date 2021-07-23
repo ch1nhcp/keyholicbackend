@@ -37,10 +37,10 @@ type paginate struct {
 
 func GetAllProduct(page int) paginate {
 	var total int
-	limit := 8
+	limit := 9
 	offset := (page - 1) * limit
 	var product []models.Product
-	database.DB.Raw("SELECT * FROM `products` LIMIT ? OFFSET ?", limit, offset).Scan(&product)
+	database.DB.Raw("SELECT * FROM `products` ORDER BY id DESC LIMIT ? OFFSET ?", limit, offset).Scan(&product)
 	database.DB.Raw("SELECT COUNT(*) FROM `products`").Scan(&total)
 	paginate := paginate{
 		Product:  product,
@@ -61,17 +61,22 @@ func GetProduct() []models.Product {
 type productDetail struct {
 	Products models.Product
 	Image    []string
+	Quantity int
 }
 
 func FindProductByName(name string) (productDetail, error) {
 	var product models.Product
 	var imageproduct []string
+	var quantity int
 	productDetail := productDetail{}
+
 	database.DB.Raw("SELECT * FROM `products` WHERE name =?", name).Scan(&product)
 	if product.Id > 0 {
 		database.DB.Raw("SELECT image FROM `imageproducts` WHERE product_id =?", product.Id).Scan(&imageproduct)
 		productDetail.Products = product
 		productDetail.Image = imageproduct
+		database.DB.Raw("SELECT quantity FROM `trueproducts` WHERE product_id =?", product.Id).Scan(&quantity)
+		productDetail.Quantity = quantity
 		return productDetail, nil
 	}
 	return productDetail, errors.New("not")
@@ -80,7 +85,7 @@ func FindProductByName(name string) (productDetail, error) {
 
 func FindProductByCategory(name string, page int) paginate {
 	var total int
-	limit := 8
+	limit := 9
 	offset := (page - 1) * limit
 	var product []models.Product
 	var idcategory int
@@ -97,7 +102,7 @@ func FindProductByCategory(name string, page int) paginate {
 }
 func FindProductByBrand(name []string, page int) paginate {
 	var total int
-	limit := 8
+	limit := 9
 	offset := (page - 1) * limit
 	var product []models.Product
 	var idbrand []int
@@ -119,4 +124,56 @@ func CheckProductExist(name string) error {
 		return errors.New("name exist")
 	}
 	return nil
+}
+
+func GetProductLatest() []productHome {
+	productlatest := []productHome{}
+	productDetail := productHome{}
+	var product []models.Product
+
+	database.DB.Raw("SELECT * FROM `products` ORDER BY id DESC LIMIT 8").Scan(&product)
+	for _, v := range product {
+		var imageproduct string
+		if v.Id > 0 {
+			database.DB.Raw("SELECT image FROM `imageproducts` WHERE product_id =?", v.Id).Scan(&imageproduct)
+
+		}
+		productDetail.Products = v
+		productDetail.Image = imageproduct
+		productlatest = append(productlatest, productDetail)
+	}
+	return productlatest
+}
+
+type productHome struct {
+	Products models.Product
+	Image    string
+	Quantity int
+}
+
+func GetProductHot() []productHome {
+	productlatest := []productHome{}
+	productDetail := productHome{}
+	var product []models.Product
+	database.DB.Raw("SELECT * FROM `products` ORDER BY RAND() LIMIT 8").Scan(&product)
+	for _, v := range product {
+		var imageproduct string
+		if v.Id > 0 {
+			database.DB.Raw("SELECT image FROM `imageproducts` WHERE product_id =?", v.Id).Scan(&imageproduct)
+			productDetail.Products = v
+			productDetail.Image = imageproduct
+			productlatest = append(productlatest, productDetail)
+		}
+	}
+	return productlatest
+}
+func GetProductSearch(key string) paginate {
+	var product []models.Product
+	database.DB.Raw("SELECT * FROM `products` WHERE products.name LIKE ?", key).Scan(&product)
+
+	paginate := paginate{
+		Product: product,
+		Total:   len(product),
+	}
+	return paginate
 }

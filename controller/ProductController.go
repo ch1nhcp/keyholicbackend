@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -29,35 +28,21 @@ func Test(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(people)
 }
 func GetCookie(writer http.ResponseWriter, request *http.Request) {
-	cookie, _ := request.Cookie("jwt")
-	json.NewEncoder(writer).Encode(cookie)
+	var token string
+	requestBody, _ := ioutil.ReadAll(request.Body)
+	json.Unmarshal(requestBody, &token)
+	json.NewEncoder(writer).Encode(token)
 }
-func SetCookie(w http.ResponseWriter, r *http.Request) {
-	cookie := &http.Cookie{
-		Name:     "jwt",
-		Value:    "1",
-		Expires:  time.Now().Add(time.Hour * 24),
-		HttpOnly: true,
-	}
-	http.SetCookie(w, cookie)
-	json.NewEncoder(w).Encode("ok")
-}
-func DelCookie(w http.ResponseWriter, r *http.Request) {
-	cookie := http.Cookie{
-		Name:     "jwt",
-		Value:    "",
-		Expires:  time.Now().Add(-time.Hour),
-		HttpOnly: true,
-	}
-	http.SetCookie(w, &cookie)
-	json.NewEncoder(w).Encode("log out successfully")
-}
+<<<<<<< HEAD
 func GetAllProduct(writer http.ResponseWriter, request *http.Request) {
 	product := repository.GetProduct()
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
 	json.NewEncoder(writer).Encode(product)
 }
+=======
+
+>>>>>>> 28e18b7fe29baedf032232cbcd9cc754ca9c0425
 func GetAllProductPaginate(writer http.ResponseWriter, request *http.Request) {
 	params := request.URL.Query()
 	pages := params["page"]
@@ -141,5 +126,24 @@ func GetProductByManyBrand(writer http.ResponseWriter, request *http.Request) {
 
 	data := repository.FindProductByBrand(a, value)
 	writer.WriteHeader(http.StatusCreated)
+	json.NewEncoder(writer).Encode(data)
+}
+func GetProductLatest(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "application/json")
+	data := repository.GetProductLatest()
+	json.NewEncoder(writer).Encode(data)
+}
+func GetProductHot(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "application/json")
+	data := repository.GetProductHot()
+	json.NewEncoder(writer).Encode(data)
+}
+func GetProductSearch(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "application/json")
+	params := request.URL.Query()
+	search := params["name"]
+	key := "%" + search[0] + "%"
+	// page := strings.Split(search[0], ",")
+	data := repository.GetProductSearch(key)
 	json.NewEncoder(writer).Encode(data)
 }

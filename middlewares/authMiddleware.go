@@ -8,7 +8,7 @@ import (
 
 func JwtVerify(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		cookie, _ := r.Cookie("jwt")
+		cookie, _ := r.Cookie("admin")
 		if cookie == nil {
 			w.WriteHeader(http.StatusUnauthorized)
 			json.NewEncoder(w).Encode("Missing auth token")

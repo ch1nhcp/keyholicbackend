@@ -11,6 +11,11 @@ func GetAllOrder() []models.Order {
 	database.DB.Raw("SELECT * FROM `orders` ").Scan(&order)
 	return order
 }
+func GetOrderByIdUser(id int) *[]models.Order {
+	var order []models.Order
+	database.DB.Raw("SELECT * FROM `orders` WHERE user_id = ? ", id).Scan(&order)
+	return &order
+}
 func GetOrderById(id int) (*models.Order, error) {
 	var order models.Order
 	database.DB.Raw("SELECT * FROM `orders` WHERE id = ? ", id).Scan(&order)

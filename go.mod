@@ -9,6 +9,10 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/olivere/elastic v6.2.35+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+<<<<<<< HEAD
+=======
+	github.com/stripe/stripe-go v70.15.0+incompatible // indirect
+>>>>>>> 28e18b7fe29baedf032232cbcd9cc754ca9c0425
 	golang.org/x/crypto v0.0.0-20210616213533-5ff15b29337e
 	gorm.io/driver/mysql v1.1.1
 	gorm.io/gorm v1.21.11
