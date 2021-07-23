@@ -52,6 +52,12 @@ func DelCookie(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &cookie)
 	json.NewEncoder(w).Encode("log out successfully")
 }
+func GetAllProduct(writer http.ResponseWriter, request *http.Request) {
+	product := repository.GetProduct()
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusOK)
+	json.NewEncoder(writer).Encode(product)
+}
 func GetAllProductPaginate(writer http.ResponseWriter, request *http.Request) {
 	params := request.URL.Query()
 	pages := params["page"]
