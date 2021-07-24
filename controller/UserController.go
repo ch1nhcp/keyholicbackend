@@ -55,13 +55,8 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 	// writer.Header().Set("jwt", token)
 	http.SetCookie(writer, cookie)
 	writer.WriteHeader(http.StatusCreated)
-<<<<<<< HEAD
 	json.NewEncoder(writer).Encode("đăng nhập thành công")
 	json.NewEncoder(writer).Encode(User)
-=======
-	// json.NewEncoder(writer).Encode("đăng nhập thành công")
-	json.NewEncoder(writer).Encode(user)
->>>>>>> 28e18b7fe29baedf032232cbcd9cc754ca9c0425
 }
 
 func Logout(writer http.ResponseWriter, request *http.Request) {
