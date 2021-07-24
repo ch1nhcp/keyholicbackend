@@ -50,13 +50,6 @@ func GetAllProduct(page int) paginate {
 	}
 	return paginate
 }
-func GetProduct() []models.Product {
-
-	var product []models.Product
-	database.DB.Raw("SELECT Name, FROM `products`").Scan(&product)
-
-	return product
-}
 
 type productDetail struct {
 	Products models.Product

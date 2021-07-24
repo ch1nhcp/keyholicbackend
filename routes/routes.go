@@ -45,10 +45,10 @@ func Setup(r *mux.Router) {
 
 	// category  -ok
 	r.HandleFunc("/api/category", controller.GetAllCategory).Methods(http.MethodGet)
-	r.HandleFunc("/api/category/add", middlewares.JwtVerify(controller.AddNewCategory)).Methods(http.MethodPost)
-	r.HandleFunc("/api/category/{id}", middlewares.JwtVerify(controller.GetCategoryById)).Methods(http.MethodGet)
-	r.HandleFunc("/api/category/{id}", middlewares.JwtVerify(controller.DelCategoryById)).Methods(http.MethodDelete)
-	r.HandleFunc("/api/category", middlewares.JwtVerify(controller.UpdateCategory)).Methods(http.MethodPut)
+	r.HandleFunc("/api/category/add", controller.AddNewCategory).Methods(http.MethodPost)
+	r.HandleFunc("/api/category/{id}", controller.GetCategoryById).Methods(http.MethodGet)
+	r.HandleFunc("/api/category/{id}", controller.DelCategoryById).Methods(http.MethodDelete)
+	r.HandleFunc("/api/category", controller.UpdateCategory).Methods(http.MethodPut)
 
 	// detailproduct -ok
 	r.HandleFunc("/api/detailproduct", controller.GetAllDetailproduct).Methods(http.MethodGet)
