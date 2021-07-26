@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"finalbackend/models"
 	"finalbackend/repository"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -12,7 +13,9 @@ import (
 )
 
 func Rabit(writer http.ResponseWriter, request *http.Request) {
-
+	writer.Header().Set("Content-Type", "application/json")
+	fmt.Println("á")
+	json.NewEncoder(writer).Encode("ád")
 }
 func Payment(writer http.ResponseWriter, request *http.Request) {
 	var payment models.Charge
