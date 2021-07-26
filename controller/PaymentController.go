@@ -11,6 +11,9 @@ import (
 	"github.com/stripe/stripe-go/charge"
 )
 
+func Rabit(writer http.ResponseWriter, request *http.Request) {
+
+}
 func Payment(writer http.ResponseWriter, request *http.Request) {
 	var payment models.Charge
 	requestBody, _ := ioutil.ReadAll(request.Body)

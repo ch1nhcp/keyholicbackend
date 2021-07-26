@@ -8,6 +8,8 @@ import (
 )
 
 func Setup(r *mux.Router) {
+	//rabitMQ
+	r.HandleFunc("/rabit", controller.Rabit).Methods(http.MethodPost)
 	//Payment triple
 	r.HandleFunc("/stripe", controller.Payment).Methods(http.MethodPost)
 	//test cookie -ok
