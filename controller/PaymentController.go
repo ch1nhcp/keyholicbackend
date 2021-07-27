@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"finalbackend/models"
+	"finalbackend/rabitmq"
 	"finalbackend/repository"
 	"fmt"
 	"io/ioutil"
@@ -13,9 +14,26 @@ import (
 )
 
 func Rabit(writer http.ResponseWriter, request *http.Request) {
-	writer.Header().Set("Content-Type", "application/json")
-	fmt.Println("á")
-	json.NewEncoder(writer).Encode("ád")
+	fmt.Println(writer.Header().Get("Content-Type"))
+	rmq := rabitmq.RabbitMQ{
+		ConnectionString: "amqp://tfs:tfs-ocg@174.138.40.239:5672/",
+	}
+	rmq.CreateConnection()
+	defer rmq.Close()
+	fmt.Println("Successfuly Connected To our RMQ Instance")
+	ch := rmq.GetChannel()
+	defer ch.Close()
+	q, err := ch.QueueDeclare(
+		"tung", // name
+		false,  // durable
+		false,  // delete when unused
+		false,  // exclusive
+		false,  // no-wait
+		nil,    // arguments
+	)
+	rabitmq.FailOnError(err, "Failed to declare a queue")
+	body := "Bui Duy Tung"
+	rabitmq.Publish(ch, q.Name, body)
 }
 func Payment(writer http.ResponseWriter, request *http.Request) {
 	var payment models.Charge
